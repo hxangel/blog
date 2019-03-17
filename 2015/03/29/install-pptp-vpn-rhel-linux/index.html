@@ -540,7 +540,7 @@ debug</pre>
 <h2 id="pptp-vpn防火墙配置"><a href="#pptp-vpn防火墙配置" class="headerlink" title="pptp vpn防火墙配置"></a>pptp vpn防火墙配置</h2><p>通过以上步骤基本上可以连接到重启后的vpn服务器，但是要让外部用户能连接<span lang="EN-US">PPTP VPN</span>，还需要在防火墙中将<span lang="EN-US">Linux</span>服务器的<span lang="EN-US">1723</span>端口和<span lang="EN-US">47</span>端口打开，并打开<span lang="EN-US">GRE</span>协议：</p>
 <p><pre class="lang:default decode:true">#注意下面的eth1为网卡，通常有一张内网卡和外网卡，请通过ifconfig命令查看</pre></p>
 <p>#请选择显示为外网ip的网卡<br>iptables -A INPUT -i eth1 -p tcp –dport 1723 -j ACCEPT<br>iptables -A INPUT -i eth1 -p gre -j ACCEPT<br>iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE</p>
-<p>#保存防火墙设置并重启防火墙<br>service iptables save<br>service iptables restart<br>如果出现”Failed to restart iptables.service: Unit iptables.service failed to load: No such file or directory.” 请查看<a href="http://www.vkilo.com/rhel-7-centos-7-fedora-firewalld-to-iptables-service.html" title="解决 RHEL 7/ CentOS 7/Fedora 找不到iptables service" target="_blank" rel="noopener">解决 RHEL 7/ CentOS 7/Fedora 找不到iptables service</a></p>
+<p>#保存防火墙设置并重启防火墙<br>service iptables save<br>service iptables restart<br>如果出现”Failed to restart iptables.service: Unit iptables.service failed to load: No such file or directory.” 请查看<a href="http://www.vkilo.com/rhel-7-centos-7-fedora-firewalld-to-iptables-service.html" title="解决 RHEL 7/ CentOS 7/Fedora 找不到iptables service">解决 RHEL 7/ CentOS 7/Fedora 找不到iptables service</a></p>
 <h2 id="调试pptp-vpn服务器"><a href="#调试pptp-vpn服务器" class="headerlink" title="调试pptp vpn服务器"></a>调试pptp vpn服务器</h2><p><pre class="lang:sh decode:true">#开启pptpd<br>service pptpd restart</pre></p>
 <p>#设置开机启动pptpd<br>chkconfig pptpd on<br><br>到以上步骤，基本上配置已经完成。接下来连接客户端并执行如下命令查看pptp vpn服务器日志</p>
 <p><pre class="lang:sh decode:true ">tail -f /var/log/messages</pre><br>假如正常，便可收工，如果有问题，请根据日志提示自动爬文</p>
@@ -668,6 +668,10 @@ debug</pre>
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories/">
+                    
+                  
+                    
                     
                       
                     
@@ -679,7 +683,7 @@ debug</pre>
                     
                     <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
-                  
+                  </a>
                 </div>
               
 
@@ -687,6 +691,10 @@ debug</pre>
                 
                 
                 <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
                   
                     
                     
@@ -1026,7 +1034,7 @@ debug</pre>
                     
                     <span class="site-state-item-count">167</span>
                     <span class="site-state-item-name">tags</span>
-                  
+                  </a>
                 </div>
               
             </nav>

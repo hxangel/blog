@@ -474,7 +474,7 @@
       
 
       
-        <p><a href="http://www.vkilo.com/install-pptp-vpn-rhel-linux.html" title="如何在RHEL/Centos/Fedora/下搭建vpn pptp 服务器" target="_blank" rel="noopener">在REHL系搭建pptp vpn服务器</a> 连接的时候出现（619等错误）查看系统日志[cat /var/log/messages |grep pptpd]后发现每次连接失败都会出现以下日志内容:</p>
+        <p><a href="http://www.vkilo.com/install-pptp-vpn-rhel-linux.html" title="如何在RHEL/Centos/Fedora/下搭建vpn pptp 服务器">在REHL系搭建pptp vpn服务器</a> 连接的时候出现（619等错误）查看系统日志[cat /var/log/messages |grep pptpd]后发现每次连接失败都会出现以下日志内容:</p>
 <p><pre class="lang:default decode:true">GRE: read(fd=6,buffer=80504c0,len=8196) from PTY failed: status = -1 error = Input/output error, usually caused by unexpected termination of pppd, check option syntax and pppd logs<br>CTRL: PTY read or GRE write failed (pty,gre)=(6,7)<br>CTRL: Reaping child PPP[13354]<br>CTRL: Client XXX.XXX.XXX.XXX control connection finished</pre><br>于是把打开调试模式，修改/etc/ppp/pptp-options 文件，找到</p>
 <div class="wp_codebox"><br><pre class="lang:default decode:true">#取消如下行前#<br>debug<br>#执行<br>service pptpd restart</pre><br></div><br>取消行前的注释，重启pptpd服务进入调试模式<br><br>分析日志后发现是logwtmp版本的与pptpd版本不一致的原因导致的问题，于是打开/etc/pptpd.conf文件,找到<br><div class="wp_codebox"><br><pre class="lang:default decode:true">logwtmp</pre><br>注释掉logwtmp后，重新启动pptpd，再次连接后一切恢复正常。<br><br></div><br>默认启用了proxyarp（在/etc/ppp/pptp-options中）功能，每次非正常断开连接后，执行以下命令：<br><div class="wp_codebox"><br><pre class="lang:sh decode:true">#windows<br>arp -d<br>#linux<br>sudo arp -d -a</pre><br>&nbsp;<br><br></div>
       
@@ -590,6 +590,10 @@
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories/">
+                    
+                  
+                    
                     
                       
                     
@@ -601,7 +605,7 @@
                     
                     <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
-                  
+                  </a>
                 </div>
               
 
@@ -609,6 +613,10 @@
                 
                 
                 <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
                   
                     
                     
@@ -948,7 +956,7 @@
                     
                     <span class="site-state-item-count">167</span>
                     <span class="site-state-item-name">tags</span>
-                  
+                  </a>
                 </div>
               
             </nav>

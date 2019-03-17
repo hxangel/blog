@@ -478,7 +478,7 @@
         <h3 id="wordpress如何更换域名"><a href="#wordpress如何更换域名" class="headerlink" title="wordpress如何更换域名"></a>wordpress如何更换域名</h3><p>在phpmyadmin中执行下面的查询语句</p>
 <p><pre>UPDATE wp_options SET option_value = replace(option_value,’<a href="http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;" target="_blank" rel="noopener">http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;</a>) WHERE option_name = ‘home’ OR option_name = ‘siteurl’;</pre></p>
 <p>UPDATE wp_posts SET post_content = replace(post_content,’<a href="http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)" target="_blank" rel="noopener">http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)</a>;</p>
-<p>UPDATE wp_posts SET guid = replace(guid,’<a href="http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)" target="_blank" rel="noopener">http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)</a>;<br>domain格式 <a href="http://www.vkilo.com" target="_blank" rel="noopener">http://www.vkilo.com</a> 最后不要带”/“;</p>
+<p>UPDATE wp_posts SET guid = replace(guid,’<a href="http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)" target="_blank" rel="noopener">http://kimozh.net&#39;,&#39;http://www.vkilo.com&#39;)</a>;<br>domain格式 <a href="http://www.vkilo.com">http://www.vkilo.com</a> 最后不要带”/“;</p>
 <p>如果出错，检查是不是标点符号有问题！</p>
 <p>wordpress换域名完美301重定向</p>
 <p>假如你的linux主机只需要把 .htaccess 文件 WordPress 部分修改成下面样子：</p>
@@ -486,7 +486,7 @@
 <p><pre># BEGIN WordPress<br><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">IfModule</span> <span style="color: #ff0000;">mod_rewrite</span>.<span style="color: #ff0000;">c</span><span style="color: #0000ff;">&gt;</span><br>Options +FollowSymLinks<br>RewriteEngine on<br>rewritecond %{http_host} ^<a href="http://www.old.com" target="_blank" rel="noopener">www.old.com</a> [nc]<br>rewriterule ^(.*)$ <a href="http://www.new.com/$1" target="_blank" rel="noopener">http://www.new.com/$1</a> [L,R=301]<br><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">IfModule</span><span style="color: #0000ff;">&gt;</span></pre></p>
 <h1 id="END-WordPress"><a href="#END-WordPress" class="headerlink" title="END WordPress"></a>END WordPress</h1><p><br>假如是windows主机需修改 wordpress 根目录下的 <strong>wp-blog-header.php</strong> ，并在文件开头 &lt;?php 之后加入以下代码：</p>
 <p><div></div></p>
-<p><pre>if (strtolower($_SERVER[‘SERVER_NAME’])!=’<a href="http://www.kimozh.net&#39;" target="_blank" rel="noopener">www.kimozh.net&#39;</a>)<br>{<br>$URIRedirect=$_SERVER[‘REQUEST_URI’];<br>if(strtolower($URIRedirect)==”/index.php”)<br>{<br>$URIRedirect=”/“;<br>}<br>header(‘HTTP/1.1 301 Moved Permanently’);<br>header(‘Location:<a href="http://www.vkilo.com&#39;.$URIRedirect)" target="_blank" rel="noopener">http://www.vkilo.com&#39;.$URIRedirect)</a>;<br>exit();<br>}</pre><br><br>注意把<a href="http://www.vkilo.com" target="_blank" rel="noopener">www.kimozh.net</a>改成你自己的新玉米</p>
+<p><pre>if (strtolower($_SERVER[‘SERVER_NAME’])!=’<a href="http://www.kimozh.net&#39;" target="_blank" rel="noopener">www.kimozh.net&#39;</a>)<br>{<br>$URIRedirect=$_SERVER[‘REQUEST_URI’];<br>if(strtolower($URIRedirect)==”/index.php”)<br>{<br>$URIRedirect=”/“;<br>}<br>header(‘HTTP/1.1 301 Moved Permanently’);<br>header(‘Location:<a href="http://www.vkilo.com&#39;.$URIRedirect)">http://www.vkilo.com&#39;.$URIRedirect)</a>;<br>exit();<br>}</pre><br><br>注意把<a href="http://www.vkilo.com">www.kimozh.net</a>改成你自己的新玉米</p>
 
       
     </div>
@@ -618,6 +618,10 @@
                 <div class="site-state-item site-state-categories">
                   
                     
+                      <a href="/categories/">
+                    
+                  
+                    
                     
                       
                     
@@ -629,7 +633,7 @@
                     
                     <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
-                  
+                  </a>
                 </div>
               
 
@@ -637,6 +641,10 @@
                 
                 
                 <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
                   
                     
                     
@@ -976,7 +984,7 @@
                     
                     <span class="site-state-item-count">167</span>
                     <span class="site-state-item-name">tags</span>
-                  
+                  </a>
                 </div>
               
             </nav>
