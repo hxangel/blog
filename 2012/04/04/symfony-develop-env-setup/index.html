@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="symfony 闲话  对于php我也就是能看懂一点代码，要我写一个留言板，里面加些杂七杂八的东西（如：ajax,json，jquery,缓存，模板，MVC）的话可能半年的时间不知道弄不弄的出来。因为这些东西只是看起来面熟，不知道是干啥用的。上帝，请原谅我的无知。最近闲来无事，到说听闻php框架可以不需要20分钟就能完成一个很牛X的东西，我就琢磨着，以前也没有做过啥玩意儿，出于好奇，开始了symf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="symfony 环境配置">
+<meta property="og:url" content="http://www.vkilo.com/2012/04/04/symfony-develop-env-setup/index.html">
+<meta property="og:site_name" content="木兮">
+<meta property="og:description" content="symfony 闲话  对于php我也就是能看懂一点代码，要我写一个留言板，里面加些杂七杂八的东西（如：ajax,json，jquery,缓存，模板，MVC）的话可能半年的时间不知道弄不弄的出来。因为这些东西只是看起来面熟，不知道是干啥用的。上帝，请原谅我的无知。最近闲来无事，到说听闻php框架可以不需要20分钟就能完成一个很牛X的东西，我就琢磨着，以前也没有做过啥玩意儿，出于好奇，开始了symf">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-17T09:04:50.688Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="symfony 环境配置">
+<meta name="twitter:description" content="symfony 闲话  对于php我也就是能看懂一点代码，要我写一个留言板，里面加些杂七杂八的东西（如：ajax,json，jquery,缓存，模板，MVC）的话可能半年的时间不知道弄不弄的出来。因为这些东西只是看起来面熟，不知道是干啥用的。上帝，请原谅我的无知。最近闲来无事，到说听闻php框架可以不需要20分钟就能完成一个很牛X的东西，我就琢磨着，以前也没有做过啥玩意儿，出于好奇，开始了symf">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.vkilo.com/2012/04/04/symfony-develop-env-setup/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>symfony 环境配置 | 木兮</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">木兮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.vkilo.com/2012/04/04/symfony-develop-env-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木兮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">symfony 环境配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2012-04-04 15:17:32" itemprop="dateCreated datePublished" datetime="2012-04-04T15:17:32+08:00">2012-04-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 17:04:50" itemprop="dateModified" datetime="2019-03-17T17:04:50+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="symfony-闲话"><a href="#symfony-闲话" class="headerlink" title="symfony 闲话"></a>symfony 闲话</h2><hr>
+<p> 对于php我也就是能看懂一点代码，要我写一个留言板，里面加些杂七杂八的东西（如：ajax,json，jquery,缓存，模板，MVC）的话可能半年的时间不知道弄不弄的出来。因为这些东西只是看起来面熟，不知道是干啥用的。上帝，请原谅我的无知。最近闲来无事，到说听闻php框架可以不需要20分钟就能完成一个很牛X的东西，我就琢磨着，以前也没有做过啥玩意儿，出于好奇，开始了symfony的学习，我这人有一个缺点，就是做事有头无尾，开始是激情和调子都比较高，不过被他们折腾的死去活来的时候就有放弃的思想；这次我对自己提出点希望，就是希望能坚持到底。多嘴完毕，just do it.  </p>
+<h2 id="php环境搭建for-symfony"><a href="#php环境搭建for-symfony" class="headerlink" title="php环境搭建for symfony"></a>php环境搭建for symfony</h2> <p> 
+
+<hr>
+</p><p> 我原来曾经做过一篇文章(笔记) named: <a href="www.kimozh.net/253-link.html">最新php环境apache+php+mysql配置</a> 当然现在不是最新的了。下面我不得不引用一段话。  &gt; </p><p>最新apache下载地址：<a href="http://labs.mop.com/apache-mirror//httpd/binaries/win32/httpd-2.2.22-win32-x86-no_ssl.msi" target="_blank" rel="noopener">httpd-2.2.22-win32-x86-no_ssl.msi</a>&nbsp;&nbsp; |&nbsp;&nbsp; <a href="http://httpd.apache.org/download.cgi" target="_blank" rel="noopener">更多版本点击此处</a>  </p><p>最新php下载地址：<a href="http://windows.php.net/downloads/releases/php-5.3.10-Win32-VC9-x86.msi" target="_blank" rel="noopener">Installer</a> 或者 <a href="http://windows.php.net/downloads/releases/php-5.3.10-Win32-VC9-x86.zip" target="_blank" rel="noopener">Zip</a>&nbsp; |&nbsp; <a href="http://windows.php.net/download/" target="_blank" rel="noopener">更多版本请移驾到官方</a>  </p><p>最新mysql下载地址：<a href="http://dev.mysql.com/downloads/mysql/#downloads" target="_blank" rel="noopener">http://dev.mysql.com/downloads/mysql/#downloads</a>（注册need）  </p><p>phpmyadmin下载地址：<a href="http://sourceforge.net/projects/phpmyadmin/files%2FphpMyAdmin%2F3.3.9.2%2FphpMyAdmin-3.3.9.2-all-" target="_blank" rel="noopener">phpMyAdmin-3.3.9.2-all-languages.7z</a>  </p><p>安装我就不说了。装软件根据个人喜好，安装到对应的位置就OK了。我个人一般软件都不喜欢装到目录带空格的。这里貌似没有什么影响，就随便。  </p><p>接下来是配置php的配置基本不需要我们管（intaller的安装方法）。  </p><p>看看apache  </p>
+<blockquote>
+<h3 id="修改配置apache"><a href="#修改配置apache" class="headerlink" title="修改配置apache"></a>修改配置apache</h3><p> </p><p>打开httpd.conf&nbsp; </p><p>1、修改默认文件，找到DirectoryIndex 替换成如下的样子（根据个人需要）  &gt; </p><p>&lt;IfModule dir_module&gt;</p>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp; DirectoryIndex index.html index.php default.php default.html  </p><p>index.htm index.html<br>&lt;/IfModule&gt; </p>
+</blockquote>
+<p>2、修改网站目录 找到DocumentRoot 在双引号内输入你的网站路径如我的  &gt; </p><p>DocumentRoot “F:/htdocs” </p>
+<p>然后找到&lt;Directory “Your apache path/htdocs”&gt;  </p><p>同样在双引号内输入你网站路径跟上面路径保持一致如我的  &gt; </p><p>&lt;Directory “F:/htdocs”&gt;  </p><p>这里略去很多英文字  </p><p>&lt;/Directory&gt; </p>
+<p>3、修改php支持找到  &gt; </p><p>#BEGIN PHP INSTALLER EDITS – REMOVE ONLY ON UNINSTALL</p>
+<blockquote>
+<p>PHPIniDir “”<br>LoadModule php5_module “php5apache2_2.dll”</p>
+<p>#END PHP INSTALLER EDITS – REMOVE ONLY ON UNINSTALL </p>
+</blockquote>
+<p>修改为你的php所在的路径 如我的：  &gt; </p><p>#BEGIN PHP INSTALLER EDITS – REMOVE ONLY ON UNINSTALL</p>
+<blockquote>
+<p>PHPIniDir “D:/web/php”#php安装的目录<br>LoadModule php5_module “D:/web/php/php5apache2_2.dll”#确保这个破玩意儿路径是对的</p>
+<p>#END PHP INSTALLER EDITS – REMOVE ONLY ON UNINSTALL  </p><p>然后把LoadModule vhost_alias_module modules/mod_vhost_alias.so和  </p><p>LoadModule rewrite_module modules/mod_rewrite.so以及Include conf/extra/httpd-vhosts.conf前面的#号去掉。  </p><p>对应需要起用rewrite功能（也就是让.htaccess起作用 it is just my mean ）</p>
+<p>AllowOverride None<br>Order deny,allow<br>Deny from all</p>
+<p>修改成<br>AllowOverride None</p>
+<p>Order allow,deny<br>Allow from all</p>
+<p>把apache重启放一边，配置mysql</p>
+<p>双击MySQL安装目录下的bin目录下的MySQLInstanceConfig.exe，选择detailed configuration，下一步——&gt;选择server machine ,下一步——&gt;Non-Transactional Database Only——&gt;下一步——&gt;选择手动（manual setting）,下一步——&gt;默认，勾勾都打上，下一步——&gt;选择手动（最后一项），选择utf8,下一步——&gt;勾上，下一步，设置密码for root user of mysql,后面最后那个勾勾掉进入最后一步点击中间那个button，完成配置。</p>
+<p>&nbsp; </p>
+</blockquote>
+</blockquote>
+<p>到目前测试下你的环境，就基本上可以满足symfony的需求了。后面说下新建项目的问题。</p>
+<p>这里简单的说下项目的地址配置，去下载一个sf_sandbox（这个名字我灰常喜欢），把文件拷贝到你放网站项目的地方，然后我们apache配置使其能够正常访问。</p>
+<p>在pathToApache\conf\extra 下有httpd-vhosts.conf 这么一个文件（也就是刚刚去掉#号的原因，因为我们现在需要用到它），用编辑器打开</p>
+<p>我们在后面增加以下代码</p>
+<blockquote>
+<p>Listen 81<br>NameVirtualHost <em>:81<br>&lt;VirtualHost </em>:81&gt;<br>&nbsp;&nbsp;&nbsp; DocumentRoot “D:/htdocs/web”#这里表示你项目存放位置下的web目录如我的放到d:\htdocs下<br>&nbsp;&nbsp;&nbsp; ServerName localhost：81<br>&nbsp;&nbsp;&nbsp; #ErrorLog “logs/dummy-host.localhost-error.log”<br>&nbsp;&nbsp;&nbsp; #CustomLog “logs/dummy-host.localhost-access.log” common<br>&lt;/VirtualHost&gt;这样再我们访问localhost:81是不是出现奇迹就在于你。完事了。因为时间问题所以弄的有点草率，有空会修改的更好些。谢谢阅读。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/02/21/css-autosize-page/" rel="next" title="如何让页面自适应大小">
+                <i class="fa fa-chevron-left"></i> 如何让页面自适应大小
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/04/05/symfony-mod-rewrite-setting/" rel="prev" title="symfony 之mod_rewrite配置">
+                symfony 之mod_rewrite配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#symfony-闲话"><span class="nav-number">1.</span> <span class="nav-text">symfony 闲话</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php环境搭建for-symfony"><span class="nav-number">2.</span> <span class="nav-text">php环境搭建for symfony</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置apache"><span class="nav-number">2.1.</span> <span class="nav-text">修改配置apache</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

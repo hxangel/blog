@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="作为一个web开发人员，开发过程中肯定有很多项目需要分配不同的域名来访问，这样避免一个localhost不够用和避免加端口各种麻烦，以及子目录超级麻烦等问题。那么很多时候需要在开发环境上门绑定多个域名。假如是一个团队开发。那么每个人都去修改hosts是一件很悲剧的事情，那么你需要的就是一台内部的dns服务器。其实本人对理论这块了解甚少，所以重在实用。 1.理论普及DNS服务器分为: master（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux 通过bind下搭建DNS Server">
+<meta property="og:url" content="http://www.vkilo.com/2014/04/24/config-dns-server-on-linux-var-bind/index.html">
+<meta property="og:site_name" content="木兮">
+<meta property="og:description" content="作为一个web开发人员，开发过程中肯定有很多项目需要分配不同的域名来访问，这样避免一个localhost不够用和避免加端口各种麻烦，以及子目录超级麻烦等问题。那么很多时候需要在开发环境上门绑定多个域名。假如是一个团队开发。那么每个人都去修改hosts是一件很悲剧的事情，那么你需要的就是一台内部的dns服务器。其实本人对理论这块了解甚少，所以重在实用。 1.理论普及DNS服务器分为: master（">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-17T09:04:50.657Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux 通过bind下搭建DNS Server">
+<meta name="twitter:description" content="作为一个web开发人员，开发过程中肯定有很多项目需要分配不同的域名来访问，这样避免一个localhost不够用和避免加端口各种麻烦，以及子目录超级麻烦等问题。那么很多时候需要在开发环境上门绑定多个域名。假如是一个团队开发。那么每个人都去修改hosts是一件很悲剧的事情，那么你需要的就是一台内部的dns服务器。其实本人对理论这块了解甚少，所以重在实用。 1.理论普及DNS服务器分为: master（">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.vkilo.com/2014/04/24/config-dns-server-on-linux-var-bind/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>linux 通过bind下搭建DNS Server | 木兮</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">木兮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.vkilo.com/2014/04/24/config-dns-server-on-linux-var-bind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木兮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">linux 通过bind下搭建DNS Server
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2014-04-24 22:42:47" itemprop="dateCreated datePublished" datetime="2014-04-24T22:42:47+08:00">2014-04-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 17:04:50" itemprop="dateModified" datetime="2019-03-17T17:04:50+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux系统/" itemprop="url" rel="index"><span itemprop="name">Linux系统</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为一个web开发人员，开发过程中肯定有很多项目需要分配不同的域名来访问，这样避免一个localhost不够用和避免加端口各种麻烦，以及子目录超级麻烦等问题。那么很多时候需要在开发环境上门绑定多个域名。假如是一个团队开发。那么每个人都去修改hosts是一件很悲剧的事情，那么你需要的就是一台内部的dns服务器。其实本人对理论这块了解甚少，所以重在实用。</p>
+<h3 id="1-理论普及"><a href="#1-理论普及" class="headerlink" title="1.理论普及"></a>1.理论普及</h3><h4 id="DNS服务器分为"><a href="#DNS服务器分为" class="headerlink" title="DNS服务器分为:"></a>DNS服务器分为:</h4><ol>
+<li>master（主DNS服务器）：拥有区域数据的文件，并对整个区域数据进行管理。</li>
+<li>slave(从服务器或叫辅助服务器）：拥有主DNS服力器的区域文件的副 本，辅助主DNS服务器对客户端进行解析，当主DNS服务器坏了后，可以完全接替主服务器的工作。</li>
+<li>forward:将任何查询请求都转发给其他服务器。起到一个代理的作用。</li>
+<li>cache:缓存服务器。</li>
+<li>hint：根DNS internet服务器集。</li>
+</ol>
+<h3 id="2-软件安装"><a href="#2-软件安装" class="headerlink" title="2.软件安装"></a>2.软件安装</h3><p><pre class="lang:sh decode:true ">#For Debian/Ubuntu<br>apt-get install bind*</pre></p>
+<p>#For CentOS/Fedora/RedHat<br>yum install bind*<br>其他的根据自己的功能需要安装相应的安装包。</p>
+<h3 id="3-配置"><a href="#3-配置" class="headerlink" title="3.配置"></a>3.配置</h3><p>通过以下命令</p>
+<p><pre class="lang:sh decode:true ">cat /etc/sysconfig/named</pre><br>可以看到系统将named的目录指向哪里。</p>
+<p><pre class="lang:sh decode:true ">/etc/sysconfig/named  #由该文件控制是否动chroot及其他参数<br>/etc/named.conf       #配置文件<br>/var/named/           #数据库文件（如正向、反向、根文件）存放位置<br>/var/run/named:       #named程序默认将pid文件放置此目录下</pre><br>这里主要需要配置的文件就/etc/named.conf</p>
+<p><pre class="lang:default decode:true ">vim /etc/named.conf</pre></p>
+<p>#修改文件 主意any的地方根据自己需要<br>options {<br>    listen-on port 53 { any; };<br>    listen-on-v6 port 53 { ::1; };<br>    directory     “/var/named”;<br>    dump-file     “/var/named/data/cache_dump.db”;<br>    statistics-file “/var/named/data/named_stats.txt”;<br>    memstatistics-file “/var/named/data/named_mem_stats.txt”;<br>    query-source    port 53;<br>    query-source-v6 port 53;<br>    allow-query     { any; };<br>};<br>logging {<br>        channel default_debug {<br>                file “data/named.run”;<br>                severity dynamic;<br>        };<br>};<br>view localhost_resolver {<br>    match-clients         { any; };<br>    match-destinations { any; };<br>    recursion yes;<br>    include “/etc/named.rfc1912.zones”;<br>};<br>假如我想绑定ryan.com到192.168.0.5</p>
+<p><pre class="lang:default decode:true ">vim /etc/named.rfc1912.zones</pre></p>
+<p>#附加以下内容并保存<br>zone “ryan.com” IN {<br>        type master;<br>        file “ryan.com.zone”;<br>        allow-update { none; };<br>};<br>zone “ryan.com-arpa” IN {<br>        type master;<br>        file “ryan.com.arpa”;<br>        allow-update { none; };<br>};<br>然后分别新建两个文件</p>
+<p><pre class="lang:default decode:true ">vim /var/named/ryan.com.zone</pre></p>
+<p>#插入以下内容并保存<br>$TTL 1D<br>@       IN SOA  ryan.com.  root. (<br>                                        0       ; serial<br>                                        1D      ; refresh<br>                                        1H      ; retry<br>                                        1W      ; expire<br>                                        3H )    ; minimum<br>@       NS      ryan.com.<br>@       A       192.168.1.5<br>www     A       192.168.1.5</p>
+<ul>
+<li>A       192.168.1.5<br><pre class="lang:default decode:true">vim /var/named/ryan.com.arpa<br>#插入以下内容并保存<br>$TTL 1D<br>@       IN SOA  ryan.com.  root. (<pre><code>0       ; serial
+1D      ; refresh
+1H      ; retry
+1W      ; expire
+3H )    ; minimum
+</code></pre>@       NS      ryan.com.<br>@       A       192.168.1.5<br>5       PTR     <a href="http://www.ryan.com" target="_blank" rel="noopener">www.ryan.com</a>.</pre><br>以上编辑基本上完成了基本配置，接下来修改你机器的域名解析</li>
+</ul>
+<p><pre class="lang:default decode:true ">vim /etc/resolv.conf</pre></p>
+<p>#修改（没有添加）指向dns所在的机器ip<br>nameserver 192.168.0.5<br><br>到此配置结束。</p>
+<h3 id="4-测试"><a href="#4-测试" class="headerlink" title="4.测试"></a>4.测试</h3><p><pre class="lang:default decode:true ">#设置开机启动<br>chkconfig named –level 235 on</pre></p>
+<p>#开启dns 服务器<br>service named start</p>
+<p>#如已经开启请使用下面的命令重启<br>service named restart<br>然后在终端输入</p>
+<p><pre class="lang:default decode:true ">nslookup </pre></p>
+<p>#enter进入nslookup的会话后直接输入需要测试的域名看看返回的结果是否正确如：<br>vkilo.ryan.com<br><br>还有一些如dig之类的测试命令，根据个人喜好和要求。还有主从这里就不再累赘。<br>&lt; 收工&gt;</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/04/24/jetbrains-reg-code/" rel="next" title="JetBrains 软件注册码">
+                <i class="fa fa-chevron-left"></i> JetBrains 软件注册码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/04/24/php-show-in-time/" rel="prev" title="php 实时输出显示">
+                php 实时输出显示 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-理论普及"><span class="nav-number">1.</span> <span class="nav-text">1.理论普及</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS服务器分为"><span class="nav-number">1.1.</span> <span class="nav-text">DNS服务器分为:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-软件安装"><span class="nav-number">2.</span> <span class="nav-text">2.软件安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-配置"><span class="nav-number">3.</span> <span class="nav-text">3.配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-测试"><span class="nav-number">4.</span> <span class="nav-text">4.测试</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

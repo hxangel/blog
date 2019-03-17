@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第一部分:工具整理引导工具：BootThink 、Nawcom的Boot CD、Chameleon（变色龙）、EmpireEFI 等； Ps:你只需要一个就够了，个人推荐用BootThink 。 HFS Explorer（需要java环境，装java VM即可） MacDrive或TransMac（用于在windows环境下读写Mac OS分区） 磁盘工具：DiskGenius或者Acronis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MAC OS X 硬盘安装详细分解教程">
+<meta property="og:url" content="http://www.vkilo.com/2010/12/13/mac-os-x-setup-on-pc/index.html">
+<meta property="og:site_name" content="木兮">
+<meta property="og:description" content="第一部分:工具整理引导工具：BootThink 、Nawcom的Boot CD、Chameleon（变色龙）、EmpireEFI 等； Ps:你只需要一个就够了，个人推荐用BootThink 。 HFS Explorer（需要java环境，装java VM即可） MacDrive或TransMac（用于在windows环境下读写Mac OS分区） 磁盘工具：DiskGenius或者Acronis">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb1.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb2.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb3.png">
+<meta property="og:updated_time" content="2019-03-17T09:04:50.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MAC OS X 硬盘安装详细分解教程">
+<meta name="twitter:description" content="第一部分:工具整理引导工具：BootThink 、Nawcom的Boot CD、Chameleon（变色龙）、EmpireEFI 等； Ps:你只需要一个就够了，个人推荐用BootThink 。 HFS Explorer（需要java环境，装java VM即可） MacDrive或TransMac（用于在windows环境下读写Mac OS分区） 磁盘工具：DiskGenius或者Acronis">
+<meta name="twitter:image" content="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.vkilo.com/2010/12/13/mac-os-x-setup-on-pc/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>MAC OS X 硬盘安装详细分解教程 | 木兮</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">木兮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.vkilo.com/2010/12/13/mac-os-x-setup-on-pc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木兮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MAC OS X 硬盘安装详细分解教程
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2010-12-13 16:30:12" itemprop="dateCreated datePublished" datetime="2010-12-13T16:30:12+08:00">2010-12-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 17:04:50" itemprop="dateModified" datetime="2019-03-17T17:04:50+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux系统/" itemprop="url" rel="index"><span itemprop="name">Linux系统</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第一部分-工具整理"><a href="#第一部分-工具整理" class="headerlink" title="第一部分:工具整理"></a>第一部分:工具整理</h2><p>引导工具：<span style="color: #ff0000;">BootThink</span> 、<span style="color: #ff0000;">Nawcom</span>的<span style="color: #ff0000;">Boot CD</span>、<span style="color: #ff0000;">Chameleon</span>（变色龙）、<span style="color: #ff0000;">EmpireEFI </span>等；</p>
+<p>Ps:你只需要一个就够了，个人推荐用BootThink 。</p>
+<p><span style="color: #ff0000;">HFS Explorer</span>（需要java环境，装java VM即可）</p>
+<p><span style="color: #ff0000;">MacDrive</span>或<span style="color: #ff0000;">TransMac</span>（用于在windows环境下读写Mac OS分区）</p>
+<p>磁盘工具：<span style="color: #ff0000;">DiskGenius</span>或者<span style="color: #ff0000;"><a href="http://www.vkilo.com/75-link.html" target="_blank" rel="noopener">Acronis Disk Director Suite</a></span>（win7可以不用下载）</p>
+<p>启动盘一张（能运行分区工具）</p>
+<p><span style="color: #ff0000;">硬盘安装助手</span></p>
+<p>替换文件:OSInstall+OSInstall.mpkg(个人推荐)</p>
+<p>相见我的另一篇：<a href="http://www.vkilo.com/157-link.html" title="MAC OS X 不能安装在这台机器上的解决办法" target="_blank" rel="noopener">MAC OS X 不能安装在这台机器上的解决办法</a></p>
+<p>kext（驱动文件）:</p>
+<p><span style="color: #ff0000;">FakeSMC.kext</span> : bootthink原来已经带有，这个kext模拟真正苹果机上的SMC部件，必备<br><span style="color: #ff0000;">NullCPUPowerManagement.kext</span> :将电源管理功能禁用，解决IntelCPUPowerManagement.kext的HPET错误<br><span style="color: #ff0000;">OpenHaltRestart.kext</span>:解决重启/关机无法断电问题<br><span style="color: #ff0000;">PlatformUUID.kext</span>:解决Unable to determine UUID for host. Error : 35的问题<br><span style="color: #ff0000;">VoodooPS2Controller.kext</span><br><span style="color: #ff0000;">AppleACPIPS2Nub.kext</span> 组合或<br><span style="color: #ff0000;">ApplePS2Controller.kext<br></span><span style="color: #ff0000;">AppleACPIPS2Nub.kext</span> 组合</p>
+<p>Ps:2个要一起使用，提供传统PS/2插口鼠标/键盘或笔记本触摸板支持</p>
+<hr>
+<h2 id="第二部分：安装前准备"><a href="#第二部分：安装前准备" class="headerlink" title="第二部分：安装前准备"></a>第二部分：安装前准备</h2><p>1、建立disk img</p>
+<p>首先把我们安装<span style="color: #ff0000;">HFS Explorer</span>，注意需要<a href="http://hi.baidu.com/yuanljuan/blog/item/9681520b02a6d71194ca6bca.html" target="_blank" rel="noopener">安装java环境</a>；这里安装就不多说。</p>
+<p>打开<span style="color: #ff0000;">HFS Explore</span>, 载入你的MAC OS X iso镜像文件选择<span style="color: #ff0000;">file</span> ——<span style="color: #ff0000;">load file system from file</span> 打开你的</p>
+<p>然后点击<span style="color: #ff0000;">tool</span>——<span style="color: #ff0000;">creat disk image</span>, 然后保存到你的某个NTFS盘下面（文件时相当的大）。</p>
+<p>Ps：这一步你也可以替换掉<a href="http://www.vkilo.com/157-link.html" title="MAC OS X 不能安装在这台机器上的解决办法" target="_blank" rel="noopener">OSInstall+OSInstall.mpkg</a>，这样你后面可以稍微的免掉第4部分到需要的时候才装。</p>
+<p>2、准备分区</p>
+<p>为我们的<span style="color: #ff0000;">MAC OS X</span>分区。我这里是7G（安装盘）+20G（安装位置）；</p>
+<p>操作见<span style="color: #ff0000;"><a href="http://www.vkilo.com/75-link.html" target="_blank" rel="noopener">Acronis Disk Director Suite</a> </span></p>
+<p>分区的时候不要选择任何格式也不要格式化，如有提醒直接取消。</p>
+<p>当然20G的你可以不管先。</p>
+<p>这里我不多言。</p>
+<p>3、刻录disk img</p>
+<p>打开下载好的硬盘安装助手（管理员身份）。</p>
+<p><a href="http://www.vkilo.com/wp-content/uploads/2010/12/image.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb.png" alt="image" title="image"></a></p>
+<p>打开第一步里面的<span style="color: #ff0000;">DMG</span>镜像文件</p>
+<p>选择第二步分好的7G的分区。</p>
+<p>选择下面三个复选框都不要选（因为过时了）。</p>
+<p>单击开始写入文件。可能会出现未响应之类的，请不要搭理，干别的事去。</p>
+<p>注意完成后会出现<span style="color: #ff0000;">Change Partition type to AF: success</span></p>
+<p>要没有完成可以手动设置为AF。</p>
+<p>手动设置为AF方法：</p>
+<p>win+R：<span style="color: #ff0000;">cmd</span>，回车，打开windows命令窗口<br>在命令窗口中键入：<span style="color: #ff0000;">diskpart</span>，回车，启动该程序，可能在vista或7中还会询问权限之类的，只管点是就好，打开diskpart窗口<br>当光标前面变成<span style="color: #ff0000;">DISKPART&gt;</span>后，键入<span style="color: #ff0000;">select disk 0</span> 回车（此步即选择你安装雪豹的那个硬盘，如果是单硬盘的话，一般都是<span style="color: #ff0000;">disk 0</span>，注意disk和0之间有空格）<br>窗口提示：磁盘0是所选磁盘，再键入<span style="color: #ff0000;">list partition</span> 回车，屏幕显示硬盘上的各个分区<br>找到你想更改ID的<span style="color: #ff0000;">7G</span>的分区，记住分区号，这里假设是<span style="color: #ff0000;">x</span>分区<br>键入：<span style="color: #ff0000;">select partition x</span>，回车，屏幕提示：分区x是所选分区<br>键入：<span style="color: #ff0000;">set ID=AF</span> 回车，屏幕提示：<span style="color: #ff0000;">diskpart已成功更改分区ID</span></p>
+<p>4、替换文件</p>
+<p>安装<span style="color: #ff0000;">Macdrive</span>（个人推荐同时需要重启）或<span style="color: #ff0000;">TrankMac</span></p>
+<h4 id="macdrive安装及使用详细教程"><a href="#macdrive安装及使用详细教程" class="headerlink" title="macdrive安装及使用详细教程"></a><a href="http://www.vkilo.com/169-link.html" target="_blank" rel="noopener">macdrive安装及使用详细教程</a></h4><p>替换<a href="http://www.vkilo.com/157-link.html" title="MAC OS X 不能安装在这台机器上的解决办法" target="_blank" rel="noopener">OSInstall+OSInstall.mpkg</a>（个人推荐）</p>
+<p>PS：假如你是非<span style="color: #ff0000;">intel多核CPU</span>（如<span style="color: #ff0000;">AMD</span>）需要下载对对应的<span style="color: #ff0000;">mach_kernel</span></p>
+<p>我的是intel的所以飘过。</p>
+<p>5、安装引导工具</p>
+<p>打开<span style="color: #ff0000;">bootThink</span>，直接安装。</p>
+<p>安装后你会发现你的<span style="color: #ff0000;">C盘</span>有个<span style="color: #ff0000;">Darwin</span>目录。</p>
+<p>打开<span style="color: #ff0000;">Darwin</span>，以<span style="color: #ff0000;">管理员的身份</span>运行<span style="color: #ff0000;">Install.bat</span>完成安装。</p>
+<p>复制我们下载好的<span style="color: #ff0000;">kext</span>文件到</p>
+<p><div></div></p>
+<p><pre>C:\Darwin\System\LibrarySL\Extensions</pre><br><br>因为怕有冲突所以建议删除</p>
+<p><div></div></p>
+<p><pre>C:\Darwin\System\LibrarySL\Extensions\Extensions.mkext<br>C:\Darwin\System\LibrarySL\x32\Extensions\Extensions.mkext<br>C:\Darwin\System\LibrarySL\x64\Extensions\Extensions.mkext</pre><br><br>如果你用的是变色龙</p>
+<p>把<span style="color: #ff0000;">kext</span>文件复制到安装光盘（<span style="color: #ff0000;">7G</span>）的<span style="color: #ff0000;">\Extra\Extensions</span>下；</p>
+<p>其他的自己网上找教程；</p>
+<p><span style="color: #ff0000;">Ps</span>：<span style="color: #ff0000;">C盘要为NTFS格式</span>，如果是FAT32需转换（基本不会数据丢失）</p>
+<p>方法：<a href="http://hi.baidu.com/yuanljuan/blog/item/147b06fcbbd7614bd7887dfe.html" title="FAT32与NTFS互转换" target="_blank" rel="noopener">FAT32与NTFS互转换</a></p>
+<hr>
+<h2 id="第三部分：正式安装"><a href="#第三部分：正式安装" class="headerlink" title="第三部分：正式安装"></a>第三部分：正式安装</h2><p>需要在<span style="color: #ff0000;">bios</span>里面开启<span style="color: #ff0000;"> SATA AHCI</span></p>
+<p>当然假如机器不支持有补丁。</p>
+<p>准备工作做完后我们重启电脑，用<span style="color: #ff0000;">bootThink</span>启动。</p>
+<p>选择选择刚刚做好镜像的那个盘（<span style="color: #ff0000;">Mac OS X Install DVD</span>）。</p>
+<p>正常状况下是能够顺利进入语言选择界面的。那么have fun!</p>
+<p>恭喜85%成功！</p>
+<p>假如人品不好（自己拿人品计算器算一下，不一定准，我是99分都死翘翘^_^）,</p>
+<p>出现了五国或者是其他的自动重启（反正五花八门）</p>
+<p><a href="http://www.vkilo.com/wp-content/uploads/2010/12/image1.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb1.png" alt="image" title="image"></a></p>
+<p>图X-1:五国</p>
+<p><a href="http://www.vkilo.com/wp-content/uploads/2010/12/image2.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb2.png" alt="image" title="image"></a></p>
+<p>图X-2:禁止</p>
+<p>我们开机进入<span style="color: #ff0000;">bootThink</span> 按<span style="color: #ff0000;">F8</span> 然后选择安装盘（7G）</p>
+<p>利用<span style="color: #ff0000;">-cpus=1</span>（cpu为一个） <span style="color: #ff0000;">-x32</span>(32位模式) <span style="color: #ff0000;">–f</span>（修复错误，不是一定能够帮你解决问题） <span style="color: #ff0000;">–x</span>（相当于安全模式）<span style="color: #ff0000;"> –v</span> （哆嗦模式 ，这个很关键你可以看到你出错的地方）</p>
+<p>以上可以一起使用。</p>
+<p>找出你的问题，然后就百度google墙内强外翻个遍。</p>
+<p>好了。这里接着你顺利解决了各个方面的问题。顺利进入安装界面。我们先不要管安装器，选择实用工具——磁盘工具</p>
+<p>选择分好的<span style="color: #ff0000;">20G</span>的分区，选择在右边选“<span style="color: #ff0000;">抹掉</span>”;在格式选择<span style="color: #ff0000;">”Mac OS扩展(日志式)” </span>然后在下面写上你喜欢的<span style="color: #ff0000;">名字</span>(英文，个人建议)，点击右下角的“<span style="color: #ff0000;">抹掉</span>”。</p>
+<p>数据无价，你的失误操作本人概不负责&lt;^_^&gt;。抹干净后直接点左上角叉叉。关闭磁盘工具。</p>
+<p>假如出现<span style="color: #ff0000;">MAC OS X不能安装在这台机器</span>或者电脑上，见详情：</p>
+<h4 id="MAC-OS-X-不能安装在这台机器上的解决办法"><a href="#MAC-OS-X-不能安装在这台机器上的解决办法" class="headerlink" title="MAC OS X 不能安装在这台机器上的解决办法"></a><a href="http://www.vkilo.com/157-link.html" title="MAC OS X 不能安装在这台机器上的解决办法" target="_blank" rel="noopener">MAC OS X 不能安装在这台机器上的解决办法</a></h4><p>好了，接下来就是安装了。</p>
+<p>安装器里面选择相应的安装（可以默认下一步）；</p>
+<p>选择刚刚抹掉的那个盘；选择下一步开始安装。</p>
+<p>大约30分钟后重启。</p>
+<p>天啦。前面已经折腾够了，怎么还要折腾呢。整个<span style="color: #ff0000;">电脑啥玩意儿</span>都进不去了（bios还是可以滴）。</p>
+<p>OK，我们用刚刚提到启动盘，在<span style="color: #ff0000;">bios</span>里面设置好后重启，把C盘（通常，反正原来是哪一个就是哪一个）设为活动！</p>
+<p>重启后<span style="color: #ff0000;">开机菜单</span>还原了。用bootThink引导进入你的MAC OS X系统,五国还有别的情况自己找解决办法。</p>
+<p>进系统后你会发现有很多表单，这个我这里不用啰嗦。自己填写好后应该能顺利进入系统。</p>
+<p>安装完成！我是要收工了。你自己要折腾的东西就来了（<span style="color: #ff0000;">安装驱动</span>之类的教程很多，自己去折腾）。</p>
+<p>用到的部分玩意儿打包：</p>
+<p><a href="http://www.vkilo.com/wp-content/uploads/2010/12/image3.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2010/12/image_thumb3.png" alt="image" title="image"></a></p>
+<p>下载地址：<a href="http://u.115.com/file/f5711a885e" title="mac_tool" target="_blank" rel="noopener">点击这里</a></p>
+<hr>
+<p>后记：其实我还有话说</p>
+<p>@vkilo是个新手，做的不是很完善，老鸟请移驾到别的地方去玩下。小鸟不要唾骂，有什么不懂的地方到博客留言或颖佳论坛回帖！有些不足我会再后面不断的补充。</p>
+<p>配置一般都不成什么大的问题（个人感觉,所以就不把自己破机子的配置传上来了）。</p>
+<p>我的测试环境：win 7+xp +ubuntu+mac os x</p>
+<p>祝大家顺利完成MAC OX X的安装以及有一个很好的体验。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/12/13/mac-os-x-can-not-install-on-this-computer/" rel="next" title="MAC OS X 不能安装在这台机器上的解决办法">
+                <i class="fa fa-chevron-left"></i> MAC OS X 不能安装在这台机器上的解决办法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/12/13/macdrive-install-and-active/" rel="prev" title="macdrive安装及使用详细教程">
+                macdrive安装及使用详细教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分-工具整理"><span class="nav-number">1.</span> <span class="nav-text">第一部分:工具整理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分：安装前准备"><span class="nav-number">2.</span> <span class="nav-text">第二部分：安装前准备</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#macdrive安装及使用详细教程"><span class="nav-number">2.0.1.</span> <span class="nav-text">macdrive安装及使用详细教程</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分：正式安装"><span class="nav-number">3.</span> <span class="nav-text">第三部分：正式安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MAC-OS-X-不能安装在这台机器上的解决办法"><span class="nav-number">3.0.1.</span> <span class="nav-text">MAC OS X 不能安装在这台机器上的解决办法</span></a></li></ol></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

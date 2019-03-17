@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="plupload算是一个好东西（用过的人都知道），用起来不好不坏的，当然每个插件在使用过程中未必跟业务完全耦合，就看你修改插件让其符合业务还是业务适应插件，这里对plupload作一个简单的介绍和分享一些个人心得。 plupload简介Plupload是有TinyMCE的开发者开发的，为您的内容管理系统或是类似上传程序提供一个高度可用的上传插件。Plupload 目前分为一个核心API 和一个jQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="plupload图片上传插件的使用">
+<meta property="og:url" content="http://www.vkilo.com/2014/04/30/plupload/index.html">
+<meta property="og:site_name" content="木兮">
+<meta property="og:description" content="plupload算是一个好东西（用过的人都知道），用起来不好不坏的，当然每个插件在使用过程中未必跟业务完全耦合，就看你修改插件让其符合业务还是业务适应插件，这里对plupload作一个简单的介绍和分享一些个人心得。 plupload简介Plupload是有TinyMCE的开发者开发的，为您的内容管理系统或是类似上传程序提供一个高度可用的上传插件。Plupload 目前分为一个核心API 和一个jQ">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-17T09:04:50.683Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="plupload图片上传插件的使用">
+<meta name="twitter:description" content="plupload算是一个好东西（用过的人都知道），用起来不好不坏的，当然每个插件在使用过程中未必跟业务完全耦合，就看你修改插件让其符合业务还是业务适应插件，这里对plupload作一个简单的介绍和分享一些个人心得。 plupload简介Plupload是有TinyMCE的开发者开发的，为您的内容管理系统或是类似上传程序提供一个高度可用的上传插件。Plupload 目前分为一个核心API 和一个jQ">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.vkilo.com/2014/04/30/plupload/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>plupload图片上传插件的使用 | 木兮</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">木兮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.vkilo.com/2014/04/30/plupload/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木兮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">plupload图片上传插件的使用
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2014-04-30 18:05:25" itemprop="dateCreated datePublished" datetime="2014-04-30T18:05:25+08:00">2014-04-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 17:04:50" itemprop="dateModified" datetime="2019-03-17T17:04:50+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/笔记分享/" itemprop="url" rel="index"><span itemprop="name">笔记分享</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>plupload算是一个好东西（用过的人都知道），用起来不好不坏的，当然每个插件在使用过程中未必跟业务完全耦合，就看你修改插件让其符合业务还是业务适应插件，这里对plupload作一个简单的介绍和分享一些个人心得。</p>
+<h3 id="plupload简介"><a href="#plupload简介" class="headerlink" title="plupload简介"></a>plupload简介</h3><p>Plupload是有TinyMCE的开发者开发的，为您的内容管理系统或是类似上传程序提供一个高度可用的上传插件。Plupload 目前分为一个核心API 和一个jQuery上传队列部件，这样使你可以直接使用或是自己定制。</p>
+<h3 id="plupload特性"><a href="#plupload特性" class="headerlink" title="plupload特性"></a>plupload特性</h3><ul>
+<li>Plupload使用jQuery的组件做为选择文件和上传文件的队列组件。</li>
+<li>Plupload使用Flash，Silverlight，HTML5，Gears，BrowserPlus、FileUpload上传文件技术引擎。</li>
+<li>Plupload允许自定义使用Plupload核心API来进行选择文件与上传文件。</li>
+<li>JavaScript用来激活文件选择对话框。此文件选择对话框是可以设置允许用户选择一个单独的文件或者是多个文件。 选择的的文件类型也是可以被限制的，因此用户只能选择指定的适当的文件，例如jgp;gif。</li>
+<li>Plupload允许对上传过程中的一些事件进行自定义，写上自己的处理方式。</li>
+<li>选定的文件的上传和它所在页面、表单是独立的。每个文件都是单独上传的，这就保证了服务端脚本能够在一个时间点更容易地处理单个文件。具体信息可以访问Plupload官方网站：<a href="http://www.plupload.com/" target="_blank" rel="noopener">http://www.plupload.com/</a></li>
+</ul>
+<h3 id="plupload配置说明"><a href="#plupload配置说明" class="headerlink" title="plupload配置说明"></a>plupload配置说明</h3><ul>
+<li>Browse_button:触发浏览文件按钮标签的唯一id,,在flash、html5、和silverlight中能找到触发事件的源（我理解的，这个参数在队列部件不需要参见）</li>
+<li>Container: 展现上传文件列表的容器，[默认是body]</li>
+<li>chunk_size：当上传文件大于服务器接收端文件大小限制的时候，可以分多次请求发给服务器，如果不需要从设置中移出</li>
+<li>drop_element：当浏览器支持拖拽的情况下，能够文件拖放到你想要的容器ID里</li>
+<li>file_data_name：设置上传字段的名称。默认情况下被设置为文件。（我试验了没找到该如何使用它，暂且不提）</li>
+<li>filters:选择文件扩展名的过滤器,每个过滤规则中只有title和ext两项[{title:’’, extensions:’’}]</li>
+<li>flash_swf_url:flash文件地址</li>
+<li>headers：自定义的插入http请求的键值对</li>
+<li>max_file_size：最大上传文件大小（格式100b, 10kb, 10mb, 1gb）</li>
+<li>multipart：布尔值，如果用mutlipart 代替二进制流的方式，在webkit下无法工作</li>
+<li>multipart_params： 跟 multipart关联在一起的键值</li>
+<li>multi_selection： 多选对话框</li>
+<li>resize：修改图片属性 resize: {width: 320, height: 240, quality: 90}</li>
+<li>runtimes:上传插件初始化选用那种方式的优先级顺序，如果第一个初始化失败就走第二个，依次类推</li>
+<li>required_features：需要那些特性，才能初始化插件</li>
+<li>url：上传服务器地址</li>
+<li>unique_names：是否生成唯一的文件名，避免与服务器文件重名</li>
+<li>urlstream_upload：布尔值 如果是flash上传应该用URLStream 代替FileReference.upload</li>
+</ul>
+<h3 id="pluload-API文档"><a href="#pluload-API文档" class="headerlink" title="pluload API文档"></a>pluload API文档</h3><h4 id="方法列表"><a href="#方法列表" class="headerlink" title="方法列表"></a>方法列表</h4><p>方法列表：</p>
+<ul>
+<li>Uploader(setting)：创建实例的构造方法</li>
+<li>bind(event, function[, scope])：绑定事件</li>
+<li>destroy()：销毁plupload的实例对象</li>
+<li>uploader.destroy()</li>
+<li>getFile(id): 获取上传文件信息</li>
+<li>init:初始化plupload实例，添加监听对象</li>
+<li>uploader.destroy()</li>
+<li>refresh：重新实例化uploader</li>
+<li>removeFile(id):从file中移除某个文件</li>
+<li>splice(start,length)：从队列中start开始删除length个文件， 返回被删除的文件列表</li>
+<li>start() 开始上传</li>
+<li>stop()停止上传</li>
+<li>unbind(name, function): 接触事件绑定</li>
+<li>unbindAll()解绑所有事件</li>
+</ul>
+<h4 id="属性集合"><a href="#属性集合" class="headerlink" title="属性集合"></a>属性集合</h4><ul>
+<li>features：uploader中包含那些特性</li>
+<li>files:当前队列中的文件列表</li>
+<li>id：uploader实例的唯一id</li>
+<li>runtime：当前运行环境（是html5、flash等等)</li>
+<li>state:当前上传进度状态</li>
+<li>total：当前上传文件的信息集合</li>
+</ul>
+<h4 id="事件集合"><a href="#事件集合" class="headerlink" title="事件集合"></a>事件集合</h4><ul>
+<li>BeforeUpload(up, file)：文件上传完之前触发的事件</li>
+<li>ChunkUploaded(up, file,response)文件被分块上传的事件</li>
+<li>Destroy(up):uploader的destroy调用的方法</li>
+<li>Error(up, err)：上传出错的时候触发</li>
+<li>Fileadded(up, files):用户选择文件时触发</li>
+<li>FileRemoved(up, files):当文件从上传队列中移除触发</li>
+<li>FileUploaded(up, file, res):文件上传成功的时候触发</li>
+<li>Init(up):当初始化的时候触发</li>
+<li>PostInit(up):init执行完以后要执行的事件触发</li>
+<li>QueueChanged(up):当文件队列变化时触发</li>
+<li>Refresh(up):当silverlight/flash或是其他运行环境需要移动的时候触发</li>
+<li>StateChanged(up)当整个上传队列被改变的时候触发</li>
+<li>UploadComplete(up,file)当队列中所有文件被上传完时触发</li>
+<li>UploadFile(up,file)当一个文件被上传的时候触发</li>
+<li>UploadProgress(up,file):当文件正在被上传中触发</li>
+</ul>
+<h3 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h3><p>###<br>1.hmtl部分</p>
+<p><pre class="lang:xhtml decode:true">&lt;div class=”form-group”&gt;<br>    &lt;label class=”control-label col-md-2”&gt;缩略图&amp;nbsp;&amp;nbsp;&lt;/label&gt;<br>    &lt;div class=”col-10”&gt;<br>        &lt;div class=”col-md-4” id=”filelist”&gt;<br>            &lt;input type=”text” name=”thumbimg” class=”form-control col-md-2”/&gt;<br>            &lt;label for=”none” class=”control-label processbar col-md-1”&gt;&lt;/label&gt;<br>        &lt;/div&gt;<br>        &lt;div id=”uploader” class=”col-md-5”&gt;<br>            &lt;button type=”button” id=”pickfiles” class=”btn blue”&gt;选择图片&lt;/button&gt;<br>            &lt;button type=”button” id=”uploadfiles” class=”btn default”&gt;上传文件&lt;/button&gt;<br>            &lt;pre id=”console” class=”display-hide”&gt;&lt;/pre&gt;<br>        &lt;/div&gt;<br>    &lt;/div&gt;<br>&lt;/div&gt;</pre><br>2.js部分</p>
+<p><pre class="lang:js decode:true">   $(function () {<br>        var uploader = new plupload.Uploader({<br>            runtimes: ‘html5,flash,silverlight,html4’,<br>            browse_button: ‘pickfiles’, // you can pass in id…<br>            container: document.getElementById(‘uploader’), // … or DOM Element itself<br>            url: ‘/extend/common/upload’,<br>            flash_swf_url: ‘/assets/plugins/plupload/Moxie.swf’,<br>            silverlight_xap_url: ‘/assets/plugins/plupload/Moxie.xap’,</pre></p>
+<pre><code>        filters: {
+            max_file_size: &apos;10mb&apos;,
+            mime_types: [
+                {title : &quot;Image files&quot;, extensions : &quot;jpg,gif,png&quot;},
+                {title : &quot;Zip files&quot;, extensions : &quot;zip&quot;}
+            ]
+        },
+        init: {
+            PostInit: function () {
+                $(&apos;#uploadfiles&apos;).html(&quot;上传文件&quot;);
+                $(&quot;#uploadfiles&quot;).on(&apos;click&apos;, function () {
+                    uploader.start();
+                    return false;
+                });
+            },
+            FilesAdded: function (up, files) {
+                var html = &quot;&quot;;
+                plupload.each(files, function (file) {
+
+                    html = &apos;&amp;lt;input type=&quot;text&quot; name=&quot;thumbimg&quot; class=&quot;form-control &apos;+file.id+&apos;&quot; value=&quot;&apos; + file.name + &apos;&quot;/&amp;gt;&amp;lt;label for=&quot;none&quot; class=&quot;control-label processbar col-md-1 &apos; + file.id + &apos;&quot; &amp;gt;&amp;lt;/label&amp;gt;&apos;;
+                });
+                $(&quot;#filelist&quot;).html(html);
+            },
+
+            UploadProgress: function (up, file) {
+                $(&quot;label.&quot; + file.id).html(file.percent + &apos;%&apos;);
+            },
+            FileUploaded: function (up, file,response) {
+                var res = $.parseJSON(response.response);
+                $(&quot;input.&quot; + file.id).val(res.result);
+            },
+            Error: function (up, err) {
+                document.getElementById(&apos;console&apos;).innerHTML += &quot;\nError #&quot; + err.code + &quot;: &quot; + err.message;
+            }
+        }
+    });
+    uploader.init();
+});&lt;/pre&gt;
+</code></pre><p>&nbsp;</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/04/24/slv-fedora-centos-mount-ntfs-error/" rel="next" title="解决fedora/CentOS下不能挂载NTFS分区">
+                <i class="fa fa-chevron-left"></i> 解决fedora/CentOS下不能挂载NTFS分区
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/05/31/sublime-text-23-install-and-crack-and-use/" rel="prev" title="Sublime Text 2/3安装与注册及使用">
+                Sublime Text 2/3安装与注册及使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#plupload简介"><span class="nav-number">1.</span> <span class="nav-text">plupload简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plupload特性"><span class="nav-number">2.</span> <span class="nav-text">plupload特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#plupload配置说明"><span class="nav-number">3.</span> <span class="nav-text">plupload配置说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pluload-API文档"><span class="nav-number">4.</span> <span class="nav-text">pluload API文档</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方法列表"><span class="nav-number">4.1.</span> <span class="nav-text">方法列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#属性集合"><span class="nav-number">4.2.</span> <span class="nav-text">属性集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件集合"><span class="nav-number">4.3.</span> <span class="nav-text">事件集合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用实例"><span class="nav-number">5.</span> <span class="nav-text">应用实例</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

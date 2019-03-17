@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="（本文决定只用句号。盆友们请自行划分）因为博客正在备案中。小blog暂时放在米国。速度那是相当的慢啊。话了50多刀整了一个破空间。好的就是有个独立的ip。以上废话就是说明鄙人为什么更新博客。在众多哥们的支持下。 原文：如何用电脑安装微信百度空间：如何用电脑安装微信&amp;#160; 也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。 1">
+<meta name="keywords" content="Android,j2ee,j2se,java,Java SE Development Kit 7,下载,安装微信,微信">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于android sdk 安装的一些问题补充">
+<meta property="og:url" content="http://www.vkilo.com/2011/10/18/android-sdk-install-faq/index.html">
+<meta property="og:site_name" content="木兮">
+<meta property="og:description" content="（本文决定只用句号。盆友们请自行划分）因为博客正在备案中。小blog暂时放在米国。速度那是相当的慢啊。话了50多刀整了一个破空间。好的就是有个独立的ip。以上废话就是说明鄙人为什么更新博客。在众多哥们的支持下。 原文：如何用电脑安装微信百度空间：如何用电脑安装微信&amp;#160; 也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。 1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb1.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb2.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/wlEmoticon-cryingface.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/wlEmoticon-embarrassedsmile.png">
+<meta property="og:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb3.png">
+<meta property="og:updated_time" content="2019-03-17T09:04:50.653Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于android sdk 安装的一些问题补充">
+<meta name="twitter:description" content="（本文决定只用句号。盆友们请自行划分）因为博客正在备案中。小blog暂时放在米国。速度那是相当的慢啊。话了50多刀整了一个破空间。好的就是有个独立的ip。以上废话就是说明鄙人为什么更新博客。在众多哥们的支持下。 原文：如何用电脑安装微信百度空间：如何用电脑安装微信&amp;#160; 也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。 1">
+<meta name="twitter:image" content="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.vkilo.com/2011/10/18/android-sdk-install-faq/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>关于android sdk 安装的一些问题补充 | 木兮</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">木兮</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>Commonweal 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.vkilo.com/2011/10/18/android-sdk-install-faq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="木兮">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于android sdk 安装的一些问题补充
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2011-10-18 15:55:00" itemprop="dateCreated datePublished" datetime="2011-10-18T15:55:00+08:00">2011-10-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-03-17 17:04:50" itemprop="dateModified" datetime="2019-03-17T17:04:50+08:00">2019-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/笔记分享/" itemprop="url" rel="index"><span itemprop="name">笔记分享</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>（本文决定只用句号。盆友们请自行划分）因为博客正在备案中。小blog暂时放在米国。速度那是相当的慢啊。话了50多刀整了一个破空间。好的就是有个独立的ip。以上废话就是说明鄙人为什么更新博客。在众多哥们的支持下。</p>
+<h3 id="原文：如何用电脑安装微信"><a href="#原文：如何用电脑安装微信" class="headerlink" title="原文：如何用电脑安装微信"></a>原文：<a href="http://www.vkilo.com/327-link.html" target="_blank" rel="noopener">如何用电脑安装微信</a></h3><p>百度空间：<a href="http://hi.baidu.com/yuanljuan/blog/item/0717c9f5d77631f57709d7ca.html" target="_blank" rel="noopener">如何用电脑安装微信</a>&#160;</p>
+<h3 id="也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。"><a href="#也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。" class="headerlink" title="也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。"></a>也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。</h3><hr>
+<h2 id="1、j2ee-和-j2se-该如何下载？"><a href="#1、j2ee-和-j2se-该如何下载？" class="headerlink" title="1、j2ee 和 j2se 该如何下载？"></a>1、j2ee 和 j2se 该如何下载？</h2><hr>
+<p>这个问题有很多盆友问我，其实我知道当时我疏忽了又很多盆友是第一次接触这个软件。只是听说。而且我在java环境变量里面也有提到（废话。立马打住）。</p>
+<p>我这里上两个图相信大伙都能明白！</p>
+<h3 id><a href="#" class="headerlink" title></a><a href="http://www.vkilo.com/wp-content/uploads/2011/10/image.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb.png" alt="image" title="image"></a></h3><p>其实中间那两个我都没有下载过。而且netbeans我这里没有安装。<font color="#006342">第一个和第四个根据自己喜欢。第四个小一点。</font></p>
+<h3 id="Java-Platform-Enterprise-Edition-6-SDK-Update-3-with-JDK-7"><a href="#Java-Platform-Enterprise-Edition-6-SDK-Update-3-with-JDK-7" class="headerlink" title="Java Platform, Enterprise Edition 6 SDK Update 3 (with JDK 7)"></a>Java Platform, Enterprise Edition 6 SDK Update 3 (with JDK 7)</h3><h3 id="也就是java进去所指的j2ee列表。"><a href="#也就是java进去所指的j2ee列表。" class="headerlink" title="也就是java进去所指的j2ee列表。"></a>也就是java进去所指的j2ee列表。</h3><p><a href="http://www.vkilo.com/wp-content/uploads/2011/10/image1.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb1.png" alt="image" title="image"></a></p>
+<p>下面红圈内的都是windows的版本。根据自己的需要（x86与X64）。32位系统的请选中32位版本。默认不加X的就死32位的。带ml的和不带ml的两个版本随便选择一个即可。</p>
+<h3 id="Java-SE-Development-Kit-7"><a href="#Java-SE-Development-Kit-7" class="headerlink" title="Java SE Development Kit 7"></a>Java SE Development Kit 7</h3><h3 id="也就是java-se所指向的列表。"><a href="#也就是java-se所指向的列表。" class="headerlink" title="也就是java se所指向的列表。"></a>也就是java se所指向的列表。</h3><p><a href="http://www.vkilo.com/wp-content/uploads/2011/10/image2.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb2.png" alt="image" title="image"></a></p>
+<p>这里我想下载错误的可能基本上为蛋。不过不管下哪一个版本都不要忘记 <font color="#ff0000">接受他们的协议 </font>。</p>
+<hr>
+<h2 id="2、为什么装微信后输入的声音会卡？"><a href="#2、为什么装微信后输入的声音会卡？" class="headerlink" title="2、为什么装微信后输入的声音会卡？"></a>2、为什么装微信后输入的声音会卡？</h2><hr>
+<p>真个真是对不起大家。我<font color="#ff0000">老实不知道</font>。所以这个问题不要再问我。见谅<img src="http://www.vkilo.com/wp-content/uploads/2011/10/wlEmoticon-cryingface.png" alt="哭泣的脸">。要是感兴趣的盆友可以做装几个可以输入声音或者是录音的软件测试下是微信的原因还是android sdk的原因（我木有时间折腾<img src="http://www.vkilo.com/wp-content/uploads/2011/10/wlEmoticon-embarrassedsmile.png" alt="尴尬">）。So sorry! </p>
+<hr>
+<h2 id="3、笼统的说下安装的时候注意的一些细节"><a href="#3、笼统的说下安装的时候注意的一些细节" class="headerlink" title="3、笼统的说下安装的时候注意的一些细节"></a>3、笼统的说下安装的时候注意的一些细节</h2><hr>
+<p>1&gt;安装软件的时候养成良好的习惯。不要除非个别默认是中文目录外。不建议把软件放到中文目录下运行。而且对英文支持肯定要比中文好。   </p>
+<p>2&gt;开虚拟机的时候<font color="#ff0000">卡</font>在<font color="#ff0000">启动界面</font>了肿么办？这里很有可能是版本的问题。个人推荐2.3.3版的。其实有些盆友的配置可能不是很好。我的配置基本上能运行所有的版本。建议试试<font color="#ff0000">低版本</font>的试试。</p>
+<p>3&gt;包下载好了，没有新建new按钮肿么办?</p>
+<p><a href="http://www.vkilo.com/wp-content/uploads/2011/10/image3.png" target="_blank" rel="noopener"><img src="http://www.vkilo.com/wp-content/uploads/2011/10/image_thumb3.png" alt="image" title="image"></a></p>
+<p>首先调整窗口大小。然后就把鼠标放中间等到可以拖动状态的时候向左边拖。见证奇迹的时刻就回到来。然后就没有然后了。</p>
+<p>4&gt;java环境变量不会设置。看我图中的指向。根据自己的软件目录。设置完后“win+R”。输入cmd（type “cmd”）。 enter（回车）。输入“java”回车。检查设置是不是正确。</p>
+<p>假如你协助又安装，有可能有注册表冗余，打开注册表。去瞅瞅HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment目录是不是正确的。不对头就修改。</p>
+<p>5&gt;为什么不做视频教程。主要是我外设不够。声音不好。讲的也稀里糊涂的，博客放的国外速度慢。视频数据量比较大。有需要的话我会录制放到115盘让大伙去下载。</p>
+<p>6&gt;俺秋秋号码是<a href="mailto:kimozh@qq.com" target="_blank" rel="noopener">kimozh@qq.com</a>，可以加我秋秋！</p>
+<font size="6">没有后话。再见。</font>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/j2ee/" rel="tag"><i class="fa fa-tag"></i> j2ee</a>
+          
+            <a href="/tags/j2se/" rel="tag"><i class="fa fa-tag"></i> j2se</a>
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/Java-SE-Development-Kit-7/" rel="tag"><i class="fa fa-tag"></i> Java SE Development Kit 7</a>
+          
+            <a href="/tags/下载/" rel="tag"><i class="fa fa-tag"></i> 下载</a>
+          
+            <a href="/tags/安装微信/" rel="tag"><i class="fa fa-tag"></i> 安装微信</a>
+          
+            <a href="/tags/微信/" rel="tag"><i class="fa fa-tag"></i> 微信</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/08/11/how-to-install-weixin-on-computer/" rel="next" title="如何用电脑安装微信">
+                <i class="fa fa-chevron-left"></i> 如何用电脑安装微信
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/11/07/slove-garbled-of-windows-en-edition/" rel="prev" title="解决英文版windows出现软件乱码问题">
+                解决英文版windows出现软件乱码问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">categories</span>
+                  
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-name">tags</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原文：如何用电脑安装微信"><span class="nav-number">1.</span> <span class="nav-text">原文：如何用电脑安装微信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。"><span class="nav-number">2.</span> <span class="nav-text">也就是这篇日志。发现了不少的问题。说明我自己做的不够好。让你们折腾的死去活来的。这里我讲文中的一些bug给大家讲一下。</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#1、j2ee-和-j2se-该如何下载？"><span class="nav-number"></span> <span class="nav-text">1、j2ee 和 j2se 该如何下载？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-Platform-Enterprise-Edition-6-SDK-Update-3-with-JDK-7"><span class="nav-number">2.</span> <span class="nav-text">Java Platform, Enterprise Edition 6 SDK Update 3 (with JDK 7)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是java进去所指的j2ee列表。"><span class="nav-number">3.</span> <span class="nav-text">也就是java进去所指的j2ee列表。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-SE-Development-Kit-7"><span class="nav-number">4.</span> <span class="nav-text">Java SE Development Kit 7</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是java-se所指向的列表。"><span class="nav-number">5.</span> <span class="nav-text">也就是java se所指向的列表。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、为什么装微信后输入的声音会卡？"><span class="nav-number"></span> <span class="nav-text">2、为什么装微信后输入的声音会卡？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、笼统的说下安装的时候注意的一些细节"><span class="nav-number"></span> <span class="nav-text">3、笼统的说下安装的时候注意的一些细节</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
