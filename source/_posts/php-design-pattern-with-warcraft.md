@@ -1,0 +1,382 @@
+---
+title: 魔兽与PHP设计模式
+id: 571
+categories:
+  - 编程
+date: 2013-08-03 00:42:13
+tags:
+---
+
+此处省略无数字
+
+### 一、单件模式：
+
+问题的提出：某些应用程序资源是独占的，因为有且只有一个此类型的资源。例如，通过数据库句柄到数据库的连接是独占的。您希望在应用程序中共享数据库句柄，因为在保持连接打开或关闭时，它是一种开销，在获取单个页面的过程中更是如此。
+问题的解决：那么下面我们就开始玩魔兽吧。首先双击war3.exe，这时候就开始运行魔兽了。我们用代码来实现吧。。
+<pre class="lang:php decode:true">&lt;?php
+class War3
+{
+    public function __construct()
+    {
+        echo "War3 is Running.";
+    }
+}
+
+$war = new War3();</pre>
+运行！很好，输出War3 is Running.我们已经可以开始游戏了，但是，如果我在代码末尾再加入
+<pre class="lang:php decode:true">$war2 = new War3();
+$war3 = new War3();</pre>
+会怎么样呢？我们试试，输出结果：War3 is Running.War3 is Running.War3 is Running.完了，如果不小心双击了两次就开了3个魔兽，那如果再双击几次，那电脑肯定爆掉。。。我们还是来想想解决方法吧。。。既然我们不能这么随意的就把这个类实例化了，那么我们就把构造函数改成私有方法。
+<pre class="lang:php decode:true">&lt;?php
+class War3 {
+    private function __construct() {
+        echo "War3 is Running.";
+    }
+}</pre>
+可是私有变量外部是无法访问的，这样以来，我们就连一个都打不开了啊。别急，我们再给他加一个不用通过实例化，外部也能访问的函数，那就是静态函数
+<pre class="lang:php decode:true">&lt;?php
+class War3
+{
+    private function __construct()
+    {
+        echo "War3 is Running.";
+    }
+
+    public static function runWar()
+    {
+
+    }
+}</pre>
+通过这个静态的方法runWar()我们来控制类War3的实例化，那么还缺上一个标识，我们再创建一个标识，通过这个标识来表示我们的类是否已经实例化，如果实例化，直接返回句柄就行了。把类修改成
+<pre class="lang:php decode:true">&lt;?php
+class War3
+{
+    protected static $_instance = null;
+
+    private function __construct()
+    {
+        echo "War3 is Running.";
+}
+
+    public static function runWar()
+    {
+        if (null === self::$_instance) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+}</pre>
+当然，我们运行魔兽时的实例化也要换种方法，就通过
+$war = War3: :runWar();
+就能开始玩魔兽了，好了，下面把完整的代码附上来：
+<pre class="lang:default decode:true">&lt;?php
+class War3
+{
+    protected static $_instance = null;
+
+    private function __construct()
+    {
+        echo "War3 is Running.";
+    }
+
+    public static function runWar()
+    {
+        if (null === self::
+                $_instance
+        ) {
+            self::
+                $_instance = new self();
+        }
+        return self::$_instance;
+    }
+}
+
+$war = War3::runWar();
+$war2 = War3::runWar();
+$war3 = War3::runWar();</pre>
+运行一下，结果是：War3 is Running.太好了，我双击了这么多次，也就只运行了一个魔兽，现在随便你怎么打开，机子都不会爆掉了。这就是传说中的单价模式，主要用于一些很占资源的而且实例仅有一个实例就够用的东西，比如，zendframework中的Zend_Controller_Front前端控制器，就是采用单价模式来设计的，大家有兴趣的话可以看看那个。
+
+### 二、策略模式：
+
+问题的提出：在此模式中，算法是从复杂类提取的，因而可以方便地替换。例如，如果要更改搜索引擎中排列页的方法，则策略模式是一个不错的选择。思考一下搜索引擎的几个部分——一部分遍历页面，一部分对每页排列，另一部分基于排列的结果排序。在复杂的示例中，这些部分都在同一个类中。通过使用策略模式，您可将排列部分放入另一个类中，以便更改页排列的方式，而不影响搜索引擎的其余代码。
+问题的解决：呵呵，不讲那么复杂，刚才魔兽好不容易打开了，我们还是玩魔兽好了。下面我们选battle，哇好多种族啊，有人族（Human），兽族（ORC），暗夜精灵族（Nighy Elf），不死族（Undead）。我选精灵族（Nighy Elf），再选一个精灵族和两个兽族（ORC），一个兽族和我是一家的，另一个精灵族和兽族是另一家的。每一个玩家在进入游戏后都会得到一些资源，如一个大厅，五个小精灵（苦工）和一个矿山。这些可以称为是初始化的一些东西，这里我们就可以用到策略模式来封装这些初始化。进入正题，首先我们来构建一个玩家类：
+<pre class="lang:php decode:true">&lt;?php
+class player
+{ //玩家名字 
+    protected $_name; //种族 
+    protected $_race; //队伍 
+    protected $army; //建筑 
+    protected $building; //人口 
+    protected $population; //黄金 
+    protected $gold; //木材 
+    protected $wood; //构造函数，设定所属种族 
+    public function __construct($race)
+    {
+        $this-&gt;race = $race;
+
+    }
+
+    //__get()方法用来获取保护属性
+    private function __get($property_name)
+    {
+        if (isset($this-&gt;$property_name)) {
+            return ($this-&gt;$property_name);
+        } else {
+            return (NULL);
+        }
+    }
+
+    //__set()方法用来设置保护属性
+    private function __set($property_name, $value)
+    {
+        $this-&gt;$property_name = $value;
+    }
+}</pre>
+接着，我们再建一个玩家初始化的接口，
+<pre class="lang:default decode:true">&lt;?php
+interface initialPlayer
+{ //制造初始化的部队 
+    public function giveArmy($player); //制造初始化的建筑 
+    public function giveBuilding($player); //初始化资源 
+    public function giveSource($player);
+}</pre>
+好了，到这里我们就该对这个接口来实现了，为了方便，我只选了两个种族，就只写这两个种族的初始化了：首先是精灵族：
+<pre class="lang:php decode:true">&lt;?php
+class NighyElfInitial implements initialPlayer
+{
+//制造初始化的部队
+    public function giveArmy($player)
+    {
+//五个小精灵
+        for ($i = 0; $i &lt;= 5; $i++) {
+            $creator = new CreatArms(); //这个是创建部队类，在后面得工厂模式中会用到，这里我就不多说了 $player - &gt;army[] = $creator - &gt;Creat('Wisp', './Arms/');
+        }
+    }
+
+//制造初始化的建筑
+    public function giveBuilding($player)
+    {
+        $creator = new CreatBuildings();
+//一个基地
+        $player-&gt;building[] = $creator-&gt;Creat('TownHall', './Buildings/');
+//一个矿场
+        $player-&gt;building[] = $creator-&gt;Creat('Mine', './Buildings/');
+    }
+
+//初始化人口上限
+    public function giveSource($player)
+    {
+        $player-&gt;population = 10;
+        $player-&gt;gold = 1000;
+        $player-&gt;wood = 100;
+    }
+}</pre>
+接下来是兽族：
+<pre class="lang:php decode:true">&lt;?php
+class ORCInitial implements initialPlayer
+{
+//制造初始化的部队
+    public function giveArmy($player)
+    {
+//五个苦工
+        for ($i = 0; $i &lt;= 5; $i++) {
+            $creator = new CreatArms(); //这个是创建部队类，在后面得工厂模式中会用到，这里我就不多说了 $player - &gt;army[] = $creator - &gt;Creat('Peon', './Arms/');
+        }
+    }
+
+//制造初始化的建筑
+    public function giveBuilding($player)
+    {
+
+        $creator = new CreatBuildings();
+//一个基地
+        $player-&gt;building[] = $creator-&gt;Creat('TownHall', './Buildings/');
+//一个矿场
+        $player-&gt;building[] = $creator-&gt;Creat('Mine', './Buildings/');
+    }
+
+//初始化人口上限
+    public function giveSource($player)
+    {
+        $player-&gt;population = 10;
+        $player-&gt;gold = 1000;
+        $player-&gt;wood = 100;
+    }
+}</pre>
+好了，到这里初始化代码就写好了，现在还差一个控制这些初始化得类，也就是封装他们：
+<pre class="lang:php decode:true">&lt;?php
+class initialController
+{ //构造函数，参数为玩家的数组 
+    public function __construct($playerArray)
+    {
+        foreach ($playerArray as $player) {
+            switch ($player-&gt;race) {
+                case 'NighyElf':
+                    $initialController = new NighyElfInitial();
+                    break;
+                case 'ORC':
+                    $initialController = new ORCInitial();
+                    break;
+            }
+            $initialController-&gt;giveArmy($player);
+            $initialController-&gt;giveBuilding($player);
+            $initialController-&gt;giveSupply($player);
+        }
+    }
+}</pre>
+最后就是简单这么一调用，就OK：
+<pre class="lang:php decode:true">&lt;?php //有两个精灵族两个兽族 
+$playerArray = array(new player('NighyElf'), new player('NighyElf'), new player('ORC'), new player('ORC')); //进行初始化工作 
+$initialController = new initialController($playerArray); ?&gt;</pre>
+这就是策略模式，他将不同情况下的算法封装在一起。Zend framework中的Zend_Application_Resource就是用策略模式来设计的。
+
+### 三、工厂模式：
+
+问题的提出：最初在设计模式一书中，许多设计模式都鼓励使用松散耦合。要理解这个概念，让我们最好谈一下许多开发人员从事大型系统的艰苦历程。在更改一个代码片段时，就会发生问题，系统其他部分——您曾认为完全不相关的部分中也有可能出现级联破坏。该问题在于紧密耦合。系统某个部分中的函数和类严重依赖于系统的其他部分中函数和类的行为和结构。您需要一组模式，使这些类能够相互通信，但不希望将它们紧密绑定在一起，以避免出现联锁。在大型系统中，许多代码依赖于少数几个关键类。需要更改这些类时，可能会出现困难。例如，假设您有一个从文件读取的User类。您希望将其更改为从数据库读取的其他类，但是，所有的代码都引用从文件读取的原始类。这时候，使用工厂模式会很方便。工厂模式是一种类，它具有为您创建对象的某些方法。您可以使用工厂类创建对象，而不直接使用new。这样，如果您想要更改所创建的对象类型，只需更改该工厂即可。使用该工厂的所有代码会自动更改。
+问题的解决：呵呵，估计有些phper没看懂吧，没关系，那是我从其他地方抄的，我们下面还是通过魔兽来进行吧。这一部分，我看都已经有前人写好了，我就基本上照抄了，请前人不要见怪啊。呵呵。前面选了暗夜精灵族（Nighy Elf），和兽族（ORC），因为小精灵（Wisp）能建造建筑，还能自爆。所以根据这个我们下面先写个小精灵（Wisp）的类。
+<pre class="lang:php decode:true">&lt;?php
+class Wisp
+{
+    private $mHealthPoint = 120; //这是小精灵的血量
+    private $mArmor = 0; //这是小精灵的护甲
+//小精灵能建造建筑
+    public function Build()
+    {
+        echo '精灵建造建筑咯。
+';
+    }
+
+//每个小精灵被造出来时还会占用一个人口
+    public function __construct()
+    {
+        echo '你已经建造了一个小精灵。
+';
+//这里是增加已有人口的代码
+    }
+
+//每个小精灵死亡会减少你占用的人口
+    public function __destruct()
+    {
+//这里是减少已有人口的代码
+    }
+}</pre>
+把这些代码放在Arms / Wisp.php中。啊，还有还有，还有苦工（Peon）的类
+<pre class="lang:php decode:true">&lt;?php
+class Peon
+{
+    private $mHealthPoint = 250; //这是苦工的血量
+    private $mArmor = 0; //这是苦工的护甲
+//苦工能建造建筑
+    public function Build()
+    {
+        echo '苦工建造建筑咯。
+';
+    }
+
+//每个苦工被造出来时还会占用一个人口
+    public function __construct()
+    {
+        echo '你已经建造了一个苦工。
+';
+//这里是增加已有人口的代码
+    }
+
+//每个苦工死亡会减少你占用的人口
+    public function __destruct()
+    {
+
+//这里是减少已有人口的代码
+    }
+}</pre>
+
+把这些代码放在Arms / Peon.php中。等等，这样岂不是很复杂，魔兽里面还有那么多的兵种，另外都还有两个种族，每次创建一个兵就要new一个，要是记不住这个兵的类名，岂不是new不了？而且如果一个兵是一个类，放在一个文件里，那是不是一开始就要把所有的几十上百个文件都include一次啊，那效率可想而知啊。嘿嘿，当然是有解决办法的啊，我们再写一个类把这些类都封装起来，这个把兵种都封装起来的类我们称之为工厂类，他可以像生产产品一样，来创建兵，帮我们对其实例化。下面我们就来看这个类怎么实现吧。
+<pre class="lang:php decode:true">&lt;?php
+class CreatArms
+{
+    public function __construct()
+    {
+    }
+
+    public function Creat($arms, $path = '')
+    {
+        include $path . $arms . '.php'; //包含要这个类的文件
+        return new $arms; //返回你创建的兵种对象的句柄
+    }
+}</pre>
+这样，即使在兵种多样的情况下，我们仍然可以很方便地实例化：$creator = new CreatArms();
+$w1 = $creator - &gt;Creat('兵种名', '前缀或路径');
+例如创建小精灵：$creator = new CreatArms(); //不管创建啥，我都只要使用这个类
+$w1 = $creator - &gt;Creat(‘Wisp’, ’. / Arms / ’); //创建一个小精灵
+$w1 - &gt;Build(); //让小精灵造建筑
+这就是传说中的工厂模式，通过工厂模式，对于如论坛那种有很多种用户的，特别是为了以后扩展比较方便的，采用工厂模式，是个很好的解决方法。在zend framework中的Zend_Form、Zend_Filter、Zend_Validate就是用工厂模式来构架的。
+
+### 四、观察者模式：
+
+问题的提出：观察者模式为您提供了避免组件之间紧密耦合的另一种方法。该模式非常简单：一个对象通过添加一个方法（该方法允许另一个对象，即观察者注册自己）使本身变得可观察。当可观察的对象更改时，它会将消息发送到已注册的观察者。这些观察者使用该信息执行的操作与可观察的对象无关。结果是对象可以相互对话，而不必了解原因。
+问题的解决：呵呵，上面还是抄的，看不懂没关系，我们今天重点是玩魔兽。已经造了很长时间的兵了，现在可以出去带兵打仗了，如果我去打电脑的兽族，那么电脑与那个兽族同盟的精灵族就会过来帮忙。那么如何让他知道自己的同盟受攻击了呢。现在我们就来讨论这个问题。首先我们写一下结盟的抽象类：
+<pre class="lang:php decode:true">&lt;?php
+
+abstract class abstractAlly
+{ //放置观察者的集合，这里以简单的数组来直观演示
+    protected $oberserverCollection; //增加观察者的方法，参数为观察者（也是玩家）
+    public function addOberserver($oberserver)
+    {
+        $this-&gt;oberserverCollection[] = new oberserver($oberserver);
+    }
+
+//将被攻击的电脑的名字通知各个观察者
+    public function notify($beAttackedPlayerName)
+    {
+//把观察者的集合循环
+        foreach ($this-&gt;oberserverCollection as $oberserver) {
+//调用各个观察者的救援函数，参数为被攻击的电脑的名字，if用来排除被攻击的电脑的观察者
+            if ($oberserver-&gt;name != $beAttackedPlayerName) $oberserver -&gt;help($beAttackedPlayerName);
+}
+    }
+
+    abstract public function beAttacked($beAttackedPlayer);
+}</pre>
+&nbsp;
+
+下面我们就写具体的结盟类：
+<pre class="lang:php decode:true">&lt;?php
+class Ally extends abstractAlly
+{ //构造函数，将所有电脑玩家的名称的数组作为参数
+
+    public function __construct($allPlayer)
+    { //把所有电脑玩家的数组循环
+
+        foreach ($allPlayer as $player) { //增加观察者，参数为各个电脑玩家的名称
+
+            $this-&gt;addOberserver($player);
+        }
+    }
+
+//将被攻击的电脑的名字通知各个观察者
+    public function beAttacked($beAttackedPlayerName)
+    {
+//调用各个观察者的救援函数，参数为被攻击的电脑的名字，if用来排除被攻击的电脑的观察者
+        $this-&gt;notify($beAttackedPlayerName);
+    }
+}</pre>
+&nbsp;
+
+接着在二、策略模式中我们定义的player类中加入一个help方法
+<pre class="lang:php decode:true">&lt;?php
+class ablit
+{
+    public function help($beAttackedPlayerName)
+    {
+        //这里简单的输出，谁去救谁，最后加一个换行，便于显示
+        echo $this-&gt;name . " help" . $beAttackedPlayerName . "&lt;br /&gt;";
+    }
+}</pre>
+&nbsp;
+
+这样就行了。最后就是仿真了。
+<pre class="lang:php decode:true">&lt;?php //先设置敌方电脑 
+$allComputePlayer = array('NighyElf2', 'ORC2'); //新建电脑结盟 
+$Ally = new Ally($allComputePlayer); //假设我进攻了电脑的兽族 
+$Ally-&gt;beAttacked('ORC2');</pre>
+这样结盟的另一家就能接到通知，去救援。观察者模式主要就是用在这种情况下。可以将某个状态变化立即通知到相关的对象，相关的对象就可以采用相应的策略。例如，zend framework中的Zend_Message就是用的观察者模式。好了，今天就玩到这里，以后有空再和大家一起玩魔兽啊。
