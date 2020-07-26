@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 木兮
+title: 木兮bio
 subtitle: 山有木兮木有枝，心悅君兮君不知。
 description:
 author: John Doe
@@ -12,7 +12,7 @@ timezone: Asia/Chongqing
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.vkilo.com
+url: http://bio2020.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -72,5 +72,5 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:hxangel/blog.git
-  branch: gh-pages
+  repo: git@github.com:bio2020/bio2020.github.io.git
+  branch: master
